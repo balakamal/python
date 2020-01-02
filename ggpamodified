@@ -10,8 +10,9 @@ result=[]
 name=""
 l=0
 F=0
+filename=input("Enter filename:")
 a=defaultdict(list)
-with open("3-2.csv",'r') as grades:
+with open(filename,'r') as grades:
     for row in grades:
         for v in row:
             if(v=="\n"):
@@ -60,7 +61,8 @@ for j in range(0,n):
         else:
             i+=1
             F+=1
-    sgpa=gi/ci
+    if(gi!=0 and ci !=0):
+        sgpa=gi/ci
     ci=0
     gi=0
     if(F!=0):
