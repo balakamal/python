@@ -1,0 +1,113 @@
+import csv
+from collections import defaultdict
+i=0
+fi=""
+ci=0.0
+gi=0.0
+sgpa=0.0
+b=[]
+result=[]
+name=""
+l=0
+F=0
+a=defaultdict(list)
+with open("3-2.csv",'r') as grades:
+    for row in grades:
+        for v in row:
+            if(v=="\n"):
+                a[i].append(fi)
+                i=0
+                fi=""
+            elif(v==","):
+                a[i].append(fi)
+                i+=1
+                fi=""
+            else:
+                fi+=v
+        fi=""
+for j in a[3]:
+    if(j=='O'):
+       b.append(10)
+    if(j=='S'):
+       b.append(9)
+    if(j=='A'):
+       b.append(8)
+    if(j=='B'):
+       b.append(7)
+    if(j=='C'):
+       b.append(6)
+    if(j=='D'):
+       b.append(5)
+    if(j=='F'):
+       b.append(0)
+
+for j in range(0,len(a[4])):
+    a[4][j]=int(a[4][j])
+    
+
+n=int(input("Enter no.of students:"))
+s=int(input("Enter no.of subjects:"))
+i=0
+ap=0
+list1=[]
+list2=[]
+for j in range(0,n):
+    for k in range(0,s):
+        if(a[4][i]!=0):
+            ci+=a[4][i]    
+            gi+=a[4][i]*b[i]
+            i+=1
+        else:
+            i+=1
+            F+=1
+    sgpa=gi/ci
+    ci=0
+    gi=0
+    if(F!=0):
+        print(a[0][l],"\t",round(sgpa,2),"& Failed in ",F," Subjects")
+    else:
+        print(a[0][l],"\t",round(sgpa,2))
+        list1.append(a[0][l])
+        list2.append(round(sgpa,2))
+        ap+=1        
+    l+=s
+    F=0
+i=0
+
+
+
+sub=[]
+sub1=[]
+for k in range(s):
+    sub.append(0)
+    sub1.append([])
+
+for j in range(0,n):
+    for k in range(0,s):
+        if(a[4][i]==0):
+            sub[k]+=1
+            sub1[k].append(a[0][i])
+            i+=1
+        else:
+            i+=1
+print("\n\n")
+print("OVERALL PASS percentage: ",round(((ap*100)/n),2),"\n\n\n")
+print("Total number of students ALL PASS: ",ap,"\n\n\n")
+
+print("TOP 5 MEMBERS")
+x = zip(list1, list2)
+x=tuple(x)
+def Sort_Tuple(x):    
+    return(sorted(x, key = lambda x: x[1], reverse=True))
+y=Sort_Tuple(x)
+for k in range(5):
+    print(y[k])
+print("\n\n")
+
+print("Summary\n-------\n\n")
+for k in range(s):
+    
+    print("SUBJECTS \t \t NO.OF FAILURES \t\t PASS PERCENTAGE\n--------------------------------------------------------------------------")
+    print(a[2][k],"\t||\t",sub[k],"\t||\t",round(((n-sub[k])/n)*100,2),"\n")
+    print(sub1[k],"\n\n")
+    
